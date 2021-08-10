@@ -1,0 +1,43 @@
+
+{
+    "data": {
+        "title": "create shipment in vamaship",
+        "description": "",
+        "name": "shipment.post.vamaship",
+        "start_event": "data_transformer.forward_mapping.vamaship.shipment_forward_mapping",
+        "steps": {
+            "data_transformer.forward_mapping.vamaship.shipment_forward_mapping" :{
+                "success": {
+                    "event_key": "logistics.post.vamaship.create_shipment"
+                },
+                "error": {
+                    "event_key": "notification.error_message"
+                }
+            },
+            "logistics.post.vamaship.create_shipment" : {
+                "success": {
+                    "event_key": "logistics.get.vamaship.get_label"
+                },
+                "error": {
+                    "event_key": "notification.error_message"
+                }
+            },
+            "logistics.get.vamaship.get_label" : {
+                "success": {
+                    "event_key": "data_transformer.reverse_mapping.vamaship.shipment_reverse_mapping"
+                },
+                "error": {
+                    "event_key": "notification.error_message"
+                }
+            },
+            "data_transformer.reverse_mapping.vamaship.shipment_reverse_mapping" : {
+                "success": {
+                    "event_key": ""
+                },
+                "error": {
+                    "event_key": "notification.error_message"
+                }
+            }
+        }
+    }
+}

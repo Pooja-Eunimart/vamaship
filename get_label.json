@@ -1,0 +1,104 @@
+{
+    "data":{
+        "name":"logistics.get.vamaship.get_label",
+        "description":"",
+        "event_type":"api_call",
+        "parameters":{
+            "properties":{
+                "host":{
+                    "ref":"config_data/marketplace_host"
+                },
+                "api_key":{
+                    "ref":"config_data/dev_credentials/api_key"
+                },
+                "reference_id":{
+                    "ref":"outputs/logistics.post.vamaship.create_shipment/refid"
+
+                }
+            }
+        }
+    },
+    "outputs":{
+        "success":{
+            "properties":{
+                "data":{
+                    "ref":"response/quotes"
+                }
+            }
+        },
+        "error":{
+            "properties":{
+                "error_code":{
+                    "ref":"error_object/error_code"
+                }
+            }
+        }
+
+    },
+
+    "response":{
+        "conversion":{
+            "required":true,
+            "type": ""
+        },
+        "conditions":{
+            "success":{
+                "fn::equal":[
+                    {
+                        "variable1": {
+                            "default_value":"success"
+                        }
+                    },
+                    {
+                        "variable2": {
+                            "default_value":"true"
+                        }
+                    }
+                ]
+            },
+            "error":{}
+        }
+
+    },
+    "request_configuration":{
+        "type":"single_request",
+        "inputs":{}
+
+    },
+    "request":{
+        "properties":{
+            "http_protocal":{
+                "default_value":"https"
+            },
+            "host":{
+                "default_value":"parameters/host"
+            },
+            "path":{
+                "ref":"parameter/refernce_id",
+                "operation":{
+                    "type":"string_format",
+                    "inputs":{
+                        "properties":{
+                            "format_string":"/ecom/api/v1/details/{}"
+                        }
+                    }
+                }
+            },
+            "method":{
+                "default_value":"GET"
+            },
+            "headers":{
+                "type":"object",
+                "properties":{
+                   "Content-Type":{
+                       "default_value":"application/json"
+                   },
+                   "Authorization":{
+                       "default_value":"parameters/api_key"
+                   }
+               }
+            }
+        }
+
+    }
+}
